@@ -15,6 +15,11 @@ services:
     startCommand: "java -jar target/account-0.0.1-SNAPSHOT.jar"
 
     envVars:
+      # --- Java Version ---
+      # This tells Render to use a JDK 21 environment to build and run the application.
+      - key: JAVA_VERSION
+        value: 21
+
       # --- Spring Boot Profile ---
       # This tells the application to load 'application-prod.properties'.
       - key: SPRING_PROFILES_ACTIVE
