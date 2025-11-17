@@ -1,26 +1,27 @@
 package com.bank.account.service;
 
-import com.bank.account.dto.LoginRequest;
-import com.bank.account.dto.UserRegistrationRequest;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.AccessTokenResponse;
-import org.keycloak.representations.idm.CredentialRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+// import com.bank.account.dto.LoginRequest;
+// import com.bank.account.dto.UserRegistrationRequest;
+// import org.keycloak.admin.client.Keycloak;
+// import org.keycloak.admin.client.resource.UsersResource;
+// import org.keycloak.representations.AccessTokenResponse;
+// import org.keycloak.representations.idm.CredentialRepresentation;
+// import org.keycloak.representations.idm.UserRepresentation;
+// import org.springframework.beans.factory.annotation.Value;
+// import org.springframework.http.HttpEntity;
+// import org.springframework.http.HttpHeaders;
+// import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
+// import org.springframework.util.LinkedMultiValueMap;
+// import org.springframework.util.MultiValueMap;
+// import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
+// import java.util.Collections;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
+    /*
     @Value("${keycloak.realm}")
     private String realm;
 
@@ -92,4 +93,5 @@ public class AuthServiceImpl implements AuthService {
 
         return restTemplate.postForObject(authServerUrl + "/realms/" + realm + "/protocol/openid-connect/token", httpEntity, AccessTokenResponse.class);
     }
+    */
 }

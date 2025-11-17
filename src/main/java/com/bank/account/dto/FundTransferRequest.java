@@ -1,5 +1,6 @@
 package com.bank.account.dto;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ public class FundTransferRequest {
     @NotBlank(message = "To account number cannot be empty")
     private String toAccountNumber;
 
-    @Min(value = 0, inclusive = false, message = "Transfer amount must be positive")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Transfer amount must be positive")
     private double amount;
 
     @NotNull(message = "Transfer type cannot be null")

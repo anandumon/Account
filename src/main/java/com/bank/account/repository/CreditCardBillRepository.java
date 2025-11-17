@@ -1,5 +1,6 @@
 package com.bank.account.repository;
 
+import com.bank.account.dto.PaymentStatus;
 import com.bank.account.entity.CreditCardBill;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
