@@ -21,10 +21,11 @@ jobs:
       - name: Build Application
         run: mvn -q -DskipTests clean package
 
-      - name: Trigger Render Deploy
+      - name: Deploy to Render
         env:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           echo "Triggering Render Deploy..."
+          echo "Using URL: [$RENDER_DEPLOY_HOOK_URL]"
           curl -v -X POST "$RENDER_DEPLOY_HOOK_URL"
       
