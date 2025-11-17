@@ -1,41 +1,41 @@
-# ==============================
-# 1️⃣ Build Stage
-# ==============================
-FROM openjdk:21-jdk-slim AS build
+# ============================================
+# 1️⃣ Build Stage (Maven + JDK)
+# ============================================
+FROM eclipse-temurin:21-jdk AS build
 
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first for caching dependencies
+# Copy Maven wrapper + pom.xml for caching
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
-# Ensure the Maven wrapper is executable
+# Make mvnw executable
 RUN chmod +x mvnw
 
-# Download dependencies
+# Pre-download dependencies (cache layer)
 RUN ./mvnw dependency:go-offline -B
 
-# Copy source code
+# Copy the entire project
 COPY src ./src
 
-# Build the application JAR (skip tests for CI/CD speed)
+# Build the application (skip tests)
 RUN ./mvnw clean package -DskipTests -B
 
 
-# ==============================
-# 2️⃣ Runtime Stage
-# ==============================
-FROM openjdk:21-jdk-slim
+# ============================================
+# 2️⃣ Runtime Stage (Smaller JDK)
+# ============================================
+FROM eclipse-temurin:21-jre-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy built jar from previous stage
+# Copy only the final JAR from builder
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose the application port
+# Expose Port
 EXPOSE 8080
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application with optimized JVM flags
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=80.0", "-jar", "app.jar"]
