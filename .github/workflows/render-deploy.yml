@@ -21,8 +21,7 @@ jobs:
       - name: Build with Maven
         run: mvn -q -DskipTests clean package
 
-      - name: Deploy to Render
-        uses: johnbeynon/render-deploy-action@v0.0.7
-        with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
+      - name: Trigger Deploy on Render (Deploy Hook)
+        run: |
+          echo "Triggering Render deployment..."
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
