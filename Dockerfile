@@ -1,41 +1,19 @@
-# ============================================
-# 1️⃣ Build Stage (Maven + JDK)
-# ============================================
-FROM eclipse-temurin:21-jdk AS build
-
-# Set working directory
+# ===== Stage 1: Build the application =====
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 
-# Copy Maven wrapper + pom.xml for caching
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+COPY pom.xml .
+RUN mvn -q dependency:go-offline
 
-# Make mvnw executable
-RUN chmod +x mvnw
-
-# Pre-download dependencies (cache layer)
-RUN ./mvnw dependency:go-offline -B
-
-# Copy the entire project
 COPY src ./src
+RUN mvn -q clean package -DskipTests
 
-# Build the application (skip tests)
-RUN ./mvnw clean package -DskipTests -B
-
-
-# ============================================
-# 2️⃣ Runtime Stage (Smaller JDK)
-# ============================================
-FROM eclipse-temurin:21-jre-alpine
-
-# Set working directory
+# ===== Stage 2: Run the application =====
+FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
-# Copy only the final JAR from builder
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose Port
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
 
-# Run the application with optimized JVM flags
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=80.0", "-jar", "app.jar"]

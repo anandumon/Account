@@ -1,0 +1,19 @@
+# Build artifacts
+target
+
+# Maven wrapper
+.mvn
+
+# Git directory and git files
+.git
+.gitignore
+
+# Log files
+*.log
+
+# IDE-specific files
+*.iml
+.idea/
+
+# Environment variable files
+.env
